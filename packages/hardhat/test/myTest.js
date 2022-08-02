@@ -6,35 +6,56 @@ use(solidity);
 
 describe("My Dapp", function () {
   let myContract;
+  let lensHub;
 
   // quick fix to let gas reporter fetch data from gas station & coinmarketcap
   before((done) => {
     setTimeout(done, 2000);
   });
 
-  describe("YourContract", function () {
+  describe("LensBoard", function () {
     it("Should deploy YourContract", async function () {
-      const YourContract = await ethers.getContractFactory("YourContract");
+      const [owner] = await ethers.getSigners();
 
-      myContract = await YourContract.deploy();
+      const YourContract = await ethers.getContractFactory("LensBoard");
+      const LensHub = await ethers.getContractFactory(
+        "ERC721PresetMinterPauserAutoId"
+      );
+
+      lensHub = await LensHub.deploy("Test", "TEST", "");
+      lensHub.mint(owner.address);
+
+      myContract = await YourContract.deploy(
+        lensHub.address,
+        "0x0000000000000000000000000000000000000000"
+      );
     });
 
-    describe("setPurpose()", function () {
-      it("Should be able to set a new purpose", async function () {
-        const newPurpose = "Test Purpose";
-
-        await myContract.setPurpose(newPurpose);
-        expect(await myContract.purpose()).to.equal(newPurpose);
-      });
-
-      it("Should emit a SetPurpose event ", async function () {
+    describe("transferProfile()", function () {
+      it("Should be able to receive profile NFT's", async function () {
         const [owner] = await ethers.getSigners();
 
-        const newPurpose = "Another Test Purpose";
+        expect(await lensHub.transferFrom(owner.address, myContract.address, 0))
+          .to.emit(lensHub, "Transfer")
+          .withArgs(owner.address, myContract.address, 0);
+      });
 
-        expect(await myContract.setPurpose(newPurpose))
-          .to.emit(myContract, "SetPurpose")
-          .withArgs(owner.address, newPurpose);
+      it("Should not be able to transfer profile out if not owner", async function () {
+        const [owner, addr1] = await ethers.getSigners();
+
+        await expect(
+          myContract.connect(addr1).transferProfile(owner.address, 0)
+        ).to.revertedWith("Ownable: caller is not the owner");
+      });
+
+      it("Should be able to transfer profile out", async function () {
+        const [owner] = await ethers.getSigners();
+
+        expect(
+          await myContract.connect(owner).transferProfile(owner.address, 0)
+        )
+          .to.emit(lensHub, "Transfer")
+          .withArgs(myContract.address, owner.address, 0);
       });
     });
   });
