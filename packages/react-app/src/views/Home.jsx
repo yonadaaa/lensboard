@@ -37,17 +37,23 @@ function Home({ writeContracts, tx }) {
   return (
     <div>
       <div style={{ margin: 32 }}>
-        <u>Welcome to LensBoard</u>
-        <p>Create a post below.</p>
-        <input onChange={setContent}></input>
-        <button
-          onClick={() => uploadPost(content.target.value).then(p => tx(writeContracts.LensBoard.post(PROFILE_ID, p)))}
-        >
-          Post
-        </button>
-      </div>
-      <div>
-        View profile <a href={`https://www.lensfrens.xyz/${PROFILE_NAME}.lens`}>here</a>.
+        <h2>Welcome to LensBoard</h2>
+        <h4>
+          Pseudonymously post on behalf of the smart contract-owned <a href={`https://www.lensfrens.xyz/${PROFILE_NAME}.lens`}>@{PROFILE_NAME}.lens</a> profile.
+        </h4>
+        <p>
+          To create a post, simply enter some text below and press <i>"post"</i>.
+
+        </p>
+        <div>
+          <input type="text" onChange={setContent}></input>
+          <button
+            onClick={() => uploadPost(content.target.value).then(p => tx(writeContracts.LensBoard.post(PROFILE_ID, p)))}
+          >
+            Post
+          </button>
+        </div>
+        <p style={{ margin: 16 }}><i>Note: There may be a short delay while the post content is being uploaded to IPFS.</i></p>
       </div>
     </div>
   );
