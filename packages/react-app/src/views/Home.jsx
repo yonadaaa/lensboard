@@ -16,7 +16,7 @@ const uploadPost = async (postContent) => {
     external_url: null,
     image: null,
     imageMimeType: null,
-    name: `Post by @smolting`,
+    name: `Post by @${PROFILE_NAME}`,
     attributes: [
       {
         traitType: 'string',
