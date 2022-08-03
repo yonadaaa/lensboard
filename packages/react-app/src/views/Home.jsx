@@ -41,7 +41,7 @@ function Home({ writeContracts, tx }) {
         <p>Create a post below.</p>
         <input onChange={setContent}></input>
         <button
-          onClick={() => uploadPost(content.target.value).then(p => tx(writeContracts.LensBoard).post(PROFILE_ID, p))}
+          onClick={() => uploadPost(content.target.value).then(p => tx(writeContracts.LensBoard.post(PROFILE_ID, p)))}
         >
           Post
         </button>
