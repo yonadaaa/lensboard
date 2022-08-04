@@ -4,8 +4,8 @@ import trimify from "../lib/trimify.js";
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
 
-const PROFILE_ID = 1;
-const PROFILE_NAME = "smolting";
+const PROFILE_ID = 50302;
+const PROFILE_NAME = "lensboard";
 
 const uploadPost = async (postContent) => {
   const { path } = await uploadToIPFS({
