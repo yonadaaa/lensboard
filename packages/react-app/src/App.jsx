@@ -1,4 +1,3 @@
-import { Button, Col, Menu, Row } from "antd";
 import "antd/dist/antd.css";
 import {
   useBalance,
@@ -10,7 +9,6 @@ import {
 } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import "./App.css";
 import { Account, Header, ThemeSwitch, NetworkDisplay, NetworkSwitch } from "./components";
 import { NETWORKS, ALCHEMY_KEY } from "./constants";
@@ -19,7 +17,9 @@ import externalContracts from "./contracts/external_contracts";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { Home } from "./views";
+import { Post } from "./views";
 import { useStaticJsonRPC } from "./hooks";
+import { Route, Switch } from "react-router-dom";
 
 const { ethers } = require("ethers");
 /*
@@ -264,8 +264,14 @@ function App(props) {
         logoutOfWeb3Modal={logoutOfWeb3Modal}
         USE_NETWORK_SELECTOR={USE_NETWORK_SELECTOR}
       />
-
-      <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} writeContracts={writeContracts} tx={tx} />
+      <Switch>
+        <Route path="/post">
+          <Post writeContracts={writeContracts} tx={tx} />
+        </Route>
+        <Route path="/">
+          <Home readContracts={readContracts} />
+        </Route>
+      </Switch>
 
       <ThemeSwitch />
     </div>

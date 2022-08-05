@@ -7,9 +7,17 @@ const { Title, Text } = Typography;
 
 export default function Header({ link, title, subTitle, ...props }) {
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", padding: "1.2rem" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        padding: "1.2rem",
+        borderStyle: "solid",
+        borderTop: 4,
+      }}
+    >
       <div style={{ display: "flex", flexDirection: "column", flex: 1, alignItems: "start" }}>
-        <a href={link} target="_blank" rel="noopener noreferrer">
+        <a href={link}>
           <Title level={4} style={{ margin: "0 0.5rem 0 0" }}>
             {title}
           </Title>
@@ -25,5 +33,5 @@ export default function Header({ link, title, subTitle, ...props }) {
 
 Header.defaultProps = {
   link: "/",
-  title: "LensBoard",
+  title: "LensBoard 🌿 🖥️",
 };

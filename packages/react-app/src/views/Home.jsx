@@ -1,61 +1,81 @@
 import React from "react";
-import uploadToIPFS from "../lib/uploadToIPFS.js";
-import trimify from "../lib/trimify.js";
-import { useState } from "react";
-import { v4 as uuid } from "uuid";
+import { PROFILE_NAME } from "./Post"
+import { Link } from "react-router-dom";
 
-const PROFILE_ID = 50302;
-const PROFILE_NAME = "lensboard";
-
-const uploadPost = async (postContent) => {
-  const { path } = await uploadToIPFS({
-    version: '1.0.0',
-    metadata_id: uuid(),
-    description: trimify(postContent),
-    content: trimify(postContent),
-    external_url: null,
-    image: null,
-    imageMimeType: null,
-    name: `Post by @${PROFILE_NAME}`,
-    attributes: [
-      {
-        traitType: 'string',
-        key: 'type',
-        value: 'post'
-      }
-    ],
-    media: [],
-    appId: "Lenster"
-  }).finally();
-
-  return path;
-}
-
-function Home({ writeContracts, tx }) {
-  const [content, setContent] = useState("");
-
+function Home({ readContracts }) {
   return (
-    <div>
-      <div style={{ margin: 32 }}>
-        <h2>Welcome to LensBoard</h2>
-        <h4>
-          Pseudonymously post on behalf of the smart contract-owned <a href={`https://www.lensfrens.xyz/${PROFILE_NAME}.lens`}>@{PROFILE_NAME}.lens</a> profile.
-        </h4>
-        <p>
-          To create a post, simply enter some text below and press <i>"post"</i>.
-
-        </p>
-        <div>
-          <input type="text" onChange={setContent}></input>
-          <button
-            onClick={() => uploadPost(content.target.value).then(p => tx(writeContracts.LensBoard.post(PROFILE_ID, p)))}
-          >
-            Post
-          </button>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <div
+        style={{
+          margin: 32,
+          maxWidth: "50%",
+          display: "flex",
+          flexDirection: "column",
+          padding: 16,
+        }}
+      >
+        <h1>Welcome to LensBoard</h1>
+        <h2>The anonymous message board for Lens.</h2>
+        <img src="timeline.png" style={{ borderStyle: "solid", margin: 16, padding: 8 }} />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            borderStyle: "solid",
+            padding: 16,
+            borderRadius: 5,
+            borderColor: "grey",
+            borderWidth: 1,
+            margin: 10,
+          }}
+        >
+          <h3>How does it work?</h3>
+          <div>
+            <p>
+              <a href={`https://open.withlens.app/profile/${PROFILE_NAME}.lens`}>@{PROFILE_NAME}.lens</a> is a smart
+              contract-owned Lens profile that anyone can post for.
+            </p>
+            <p>
+              Creating new posts is permissionless, so the profile is not owned by any single person, and posting is
+              anonymous (provided that you use an anonymous address)!
+            </p>
+            <p>Say gm, tell the world your most controversial take, confess your deepest secrets - it's up to you!</p>
+            <button style={{ fontSize: 22, margin: 8 }}>
+              <Link to="/post">Create a post</Link>
+            </button>
+          </div>
         </div>
-        <p style={{ margin: 16 }}><i>Note: There may be a short delay while the post content is being uploaded to IPFS.</i></p>
+        <div
+          style={{
+            display: "flex",
+            margin: 10,
+            flexDirection: "column",
+            borderStyle: "solid",
+            padding: 16,
+            borderRadius: 5,
+            borderColor: "grey",
+            borderWidth: 1,
+          }}
+        >
+          <h3>Useful links</h3>
+          <ul style={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
+            <li>
+              <a href={`https://open.withlens.app/profile/${PROFILE_NAME}.lens`}>@{PROFILE_NAME}.lens Lens profile</a>
+            </li>
+            <li>
+              <a
+                href={`https://polygonscan.com/address/${readContracts.LensBoard ? readContracts.LensBoard.address : ""}`}
+              >
+                Smart contract on PolygonScan
+              </a>
+            </li>
+            <li>
+              <a href={`https://github.com/fraserdscott/lensboard`}>LensBoard GitHub</a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </div >
   );
 }
 
