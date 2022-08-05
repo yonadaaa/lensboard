@@ -9,6 +9,7 @@ import "@aave/lens-protocol/contracts/interfaces/ILensHub.sol";
 contract LensBoard is ERC721Holder, Ownable {
     address public lensHub;
     address public collectModule;
+    bytes private constant collectModuleInitData = abi.encode(true);
 
     constructor(address _lensHub, address _collectModule) {
         lensHub = _lensHub;
@@ -21,7 +22,7 @@ contract LensBoard is ERC721Holder, Ownable {
                 profileId,
                 contentURI,
                 collectModule,
-                abi.encode(true),
+                collectModuleInitData,
                 address(0),
                 ""
             )
