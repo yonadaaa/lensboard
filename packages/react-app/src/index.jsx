@@ -13,10 +13,10 @@ const themes = {
 
 const prevTheme = window.localStorage.getItem("theme");
 
-const subgraphUri = "http://localhost:8000/subgraphs/name/scaffold-eth/your-contract";
+const API_URL = "https://api.lens.dev";
 
 const client = new ApolloClient({
-  uri: subgraphUri,
+  uri: API_URL,
   cache: new InMemoryCache(),
 });
 
@@ -24,7 +24,7 @@ ReactDOM.render(
   <ApolloProvider client={client}>
     <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "light"}>
       <BrowserRouter>
-        <App subgraphUri={subgraphUri} />
+        <App subgraphUri={API_URL} />
       </BrowserRouter>
     </ThemeSwitcherProvider>
   </ApolloProvider>,

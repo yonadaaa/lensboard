@@ -1,6 +1,7 @@
 import React from "react";
-import { PROFILE_NAME } from "./Post"
+import { PROFILE_NAME } from "./NewPost";
 import { Link } from "react-router-dom";
+import Posts from "../components/Posts";
 
 function Home({ readContracts }) {
   return (
@@ -16,13 +17,27 @@ function Home({ readContracts }) {
       >
         <h1>Welcome to LensBoard</h1>
         <h2>The anonymous message board for Lens.</h2>
-        <img src="timeline.png" style={{ borderStyle: "solid", margin: 16, padding: 8 }} />
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            borderStyle: "solid",
             padding: 16,
+            borderStyle: "solid",
+            borderRadius: 5,
+            borderColor: "grey",
+            borderWidth: 1,
+            margin: 10,
+          }}
+        >
+          <h3>Recent posts</h3>
+          <Posts />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: 16,
+            borderStyle: "solid",
             borderRadius: 5,
             borderColor: "grey",
             borderWidth: 1,
@@ -64,7 +79,8 @@ function Home({ readContracts }) {
             </li>
             <li>
               <a
-                href={`https://polygonscan.com/address/${readContracts.LensBoard ? readContracts.LensBoard.address : ""}`}
+                href={`https://polygonscan.com/address/${readContracts.LensBoard ? readContracts.LensBoard.address : ""
+                  }`}
               >
                 Smart contract on PolygonScan
               </a>
@@ -75,7 +91,7 @@ function Home({ readContracts }) {
           </ul>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 

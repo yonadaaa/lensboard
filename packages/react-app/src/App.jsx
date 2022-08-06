@@ -17,7 +17,7 @@ import externalContracts from "./contracts/external_contracts";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { Home } from "./views";
-import { Post } from "./views";
+import { NewPost } from "./views";
 import { useStaticJsonRPC } from "./hooks";
 import { Route, Switch } from "react-router-dom";
 
@@ -266,7 +266,7 @@ function App(props) {
       />
       <Switch>
         <Route path="/post">
-          <Post writeContracts={writeContracts} tx={tx} />
+          <NewPost writeContracts={writeContracts} tx={tx} />
         </Route>
         <Route path="/">
           <Home readContracts={readContracts} />
