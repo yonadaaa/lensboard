@@ -5,7 +5,7 @@ const { solidity } = require("ethereum-waffle");
 use(solidity);
 
 describe("My Dapp", function () {
-  let myContract;
+  let lensBoard;
   let lensHub;
 
   // quick fix to let gas reporter fetch data from gas station & coinmarketcap
@@ -17,18 +17,23 @@ describe("My Dapp", function () {
     it("Should deploy YourContract", async function () {
       const [owner] = await ethers.getSigners();
 
-      const YourContract = await ethers.getContractFactory("LensBoard");
       const LensHub = await ethers.getContractFactory(
         "ERC721PresetMinterPauserAutoId"
+      );
+      const LensBoard = await ethers.getContractFactory("LensBoard");
+      const Paymaster = await ethers.getContractFactory(
+        "SingleRecipientPaymaster"
       );
 
       lensHub = await LensHub.deploy("Test", "TEST", "");
       lensHub.mint(owner.address);
 
-      myContract = await YourContract.deploy(
+      lensBoard = await LensBoard.deploy(
         lensHub.address,
         "0x0000000000000000000000000000000000000000"
       );
+
+      const payMaster = await Paymaster.deploy(lensBoard.address);
     });
   });
 });

@@ -2,8 +2,9 @@
 pragma solidity 0.8.10;
 
 import "@aave/lens-protocol/contracts/interfaces/ILensHub.sol";
+import "@opengsn/contracts/src/ERC2771Recipient.sol";
 
-contract LensBoard {
+contract LensBoard is ERC2771Recipient {
     ILensHub public lensHub;
     address public collectModule;
     bytes private constant collectModuleInitData = abi.encode(true);
@@ -27,6 +28,6 @@ contract LensBoard {
             )
         );
 
-        emit BoardPostCreated(profileId, pubId, msg.sender);
+        emit BoardPostCreated(profileId, pubId, _msgSender());
     }
 }
