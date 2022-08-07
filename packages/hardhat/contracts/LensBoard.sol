@@ -4,9 +4,8 @@ pragma solidity 0.8.10;
 import "@aave/lens-protocol/contracts/interfaces/ILensHub.sol";
 
 contract LensBoard {
-    ILensHub public lensHub;
-    address public collectModule;
-    bytes private constant collectModuleInitData = abi.encode(true);
+    ILensHub public immutable lensHub;
+    address public immutable collectModule;
 
     event BoardPostCreated(uint256 profileId, uint256 pubId, address poster);
 
@@ -21,7 +20,7 @@ contract LensBoard {
                 profileId,
                 contentURI,
                 collectModule,
-                collectModuleInitData,
+                "",
                 address(0),
                 ""
             )
