@@ -8,13 +8,15 @@ contract LensBoard {
     address public collectModule;
     bytes private constant collectModuleInitData = abi.encode(true);
 
+    event BoardPostCreated(uint256 profileId, uint256 pubId, address poster);
+
     constructor(ILensHub _lensHub, address _collectModule) {
         lensHub = _lensHub;
         collectModule = _collectModule;
     }
 
     function post(uint256 profileId, string memory contentURI) public {
-        lensHub.post(
+        uint256 pubId = lensHub.post(
             DataTypes.PostData(
                 profileId,
                 contentURI,
@@ -24,5 +26,7 @@ contract LensBoard {
                 ""
             )
         );
+
+        emit BoardPostCreated(profileId, pubId, msg.sender);
     }
 }
